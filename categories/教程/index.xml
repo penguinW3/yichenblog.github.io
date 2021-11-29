@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>教程 on 忆尘博客</title>
+    <link>/categories/%E6%95%99%E7%A8%8B/</link>
+    <description>Recent content in 教程 on 忆尘博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>忆尘博客 © 2021-{year} Yi Chen. 版权所有.</copyright>
+    <lastBuildDate>Sat, 02 Oct 2021 00:00:00 +0000</lastBuildDate><atom:link href="/categories/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>markdown使用语法</title>
+      <link>/posts/markdown%E4%BD%BF%E7%94%A8%E8%AF%AD%E6%B3%95/</link>
+      <pubDate>Sat, 02 Oct 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/markdown%E4%BD%BF%E7%94%A8%E8%AF%AD%E6%B3%95/</guid>
+      <description>本文提供了可用于 Hugo 内容文件的基本 Markdown 语法示例，还展示了基本 HTML 元素是否在 Hugo 主题中使用 CSS 装饰 1、标题 以下 HTML&amp;lt;h1&amp;gt;—&amp;lt;h6</description>
+    </item>
+    
+  </channel>
+</rss>

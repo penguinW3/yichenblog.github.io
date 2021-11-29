@@ -1,0 +1,854 @@
+<!doctype html><html lang="zh-cn"
+  >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>云服务器上搭建solo博客 - 忆尘博客</title><link rel="apple-touch-icon" href="/images/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/images/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/images/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/images/favicons/manifest.json">
+<link rel="icon" href="/images/favicons/favicon.ico">
+<meta name="keywords" content="" />
+<meta name="description" content="如何在服务器上搭建solo博客系统." /><meta itemprop="name" content="云服务器上搭建solo博客">
+<meta itemprop="description" content="如何在服务器上搭建solo博客系统."><meta itemprop="datePublished" content="2021-10-02T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-10-02T00:00:00+00:00" />
+<meta itemprop="wordCount" content="931"><meta itemprop="image" content="https://yichenblog-picture.oss-cn-hongkong.aliyuncs.com/postsImages/云服务器上搭建solo博客/home.png">
+<meta itemprop="keywords" content="服务器,solo,博客," /><meta property="og:title" content="云服务器上搭建solo博客" />
+<meta property="og:description" content="如何在服务器上搭建solo博客系统." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/%E9%98%BF%E9%87%8C%E4%BA%91ecs%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BAsolo%E5%8D%9A%E5%AE%A2%E7%B3%BB%E7%BB%9F/" /><meta property="og:image" content="https://yichenblog-picture.oss-cn-hongkong.aliyuncs.com/postsImages/云服务器上搭建solo博客/home.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-10-02T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-10-02T00:00:00+00:00" /><meta property="og:site_name" content="忆尘博客" />
+<meta property="og:see_also" content="/posts/markdown%E4%BD%BF%E7%94%A8%E8%AF%AD%E6%B3%95/" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://yichenblog-picture.oss-cn-hongkong.aliyuncs.com/postsImages/云服务器上搭建solo博客/home.png"/>
+
+<meta name="twitter:title" content="云服务器上搭建solo博客"/>
+<meta name="twitter:description" content="如何在服务器上搭建solo博客系统."/>
+<link rel="preload" href="/css/bundle.min.77f6f3d767d52dbf1ba163aad56e1d8cc4231cd4e80f0aa09daa89f8c99688ef.css" integrity="sha256-d/bz12fVLb8boWOq1W4djMQjHNToDwqgnaqJ&#43;MmWiO8=" crossorigin="anonymous" as="style" onload="this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="/css/bundle.min.77f6f3d767d52dbf1ba163aad56e1d8cc4231cd4e80f0aa09daa89f8c99688ef.css" integrity="sha256-d/bz12fVLb8boWOq1W4djMQjHNToDwqgnaqJ&#43;MmWiO8=" crossorigin="anonymous"></noscript></head>
+  <body><script src="/js/bootstrap.min.b5d86dd3a5f60c90be38a252bb65fc1a2732f32e71dc12c051720f0c7aef3cde.js" integrity="sha256-tdht06X2DJC&#43;OKJSu2X8Gicy8y5x3BLAUXIPDHrvPN4=" crossorigin="anonymous"></script><header>
+  <link rel="stylesheet" href="https://yandex.st/highlightjs/8.0/styles/default.min.css">
+
+  <script src="https://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+
+  <script>hljs.initHighlightingOnLoad();</script><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
+    </button><a class="navbar-brand me-3" href="/"><img class="logo" alt="Logo" src="https://yichenblog-picture.oss-cn-hongkong.aliyuncs.com/postsImages/default/logo.webp" loading="lazy"
+  
+   />
+忆尘
+    </a>
+    <button class="navbar-social-share" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSocialShare"
+  aria-controls="offcanvasSocialShare" aria-label="Toggle social share">
+  <i class="fas fa-share-alt"></i>
+</button>
+
+<div class="offcanvas offcanvas-bottom surface" tabindex="-1" id="offcanvasSocialShare" aria-labelledby="offcanvasSocialShare">
+  <div class="offcanvas-header">
+    <h3 class="offcanvas-title">分享</h3>
+    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="offcanvas-body">
+    <a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Twitter Share Button"
+      target="_blank" href="https://connect.qq.com/widget/shareqq/index.html?title=%e4%ba%91%e6%9c%8d%e5%8a%a1%e5%99%a8%e4%b8%8a%e6%90%ad%e5%bb%basolo%e5%8d%9a%e5%ae%a2&url=%2fposts%2f%25E9%2598%25BF%25E9%2587%258C%25E4%25BA%2591ecs%25E6%259C%258D%25E5%258A%25A1%25E5%2599%25A8%25E6%2590%25AD%25E5%25BB%25BAsolo%25E5%258D%259A%25E5%25AE%25A2%25E7%25B3%25BB%25E7%25BB%259F%2f">
+      <i class="fab fa-fw fa-qq "></i> QQ
+    </a>
+    <a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Facebook Share Button"
+      target="_blank" href="https://service.weibo.com/share/share.php?u=%2fposts%2f%25E9%2598%25BF%25E9%2587%258C%25E4%25BA%2591ecs%25E6%259C%258D%25E5%258A%25A1%25E5%2599%25A8%25E6%2590%25AD%25E5%25BB%25BAsolo%25E5%258D%259A%25E5%25AE%25A2%25E7%25B3%25BB%25E7%25BB%259F%2f">
+      <i class="fab fa-fw fa-weibo"></i> 微博
+    </a>
+  </div>
+</div>
+    <button class="navbar-settings" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSettings"
+  aria-controls="offcanvasSettings" aria-label="Toggle settings">
+  <i class="fas fa-ellipsis-v"></i>
+</button>
+
+<div class="offcanvas offcanvas-end surface h-100" tabindex="-1" id="offcanvasSettings" aria-labelledby="offcanvasSettings">
+  <div class="offcanvas-header">
+    <h3 class="offcanvas-title">设置</h3>
+    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="offcanvas-body">
+
+<section class="setting">
+  <form class="row">
+    <div class="col-auto">
+      <label><i class="fas fa-fw fa-adjust"></i> 模式</label>
+    </div>
+    <div class="col-auto ms-auto">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="modeSwitcher">
+      </div>
+    </div>
+  </form>
+</section>
+
+<section class="setting">
+  <form class="font-size-switcher-form row">
+    <div class="col-auto">
+      <label for="fontSize" class="form-label"><i class="fas fa-fw fa-font"></i> 字体大小</label>
+    </div>
+    <div class="col-auto ms-auto">
+      <input type="range" class="form-range" min="-2" max="2" id="fontSize">
+    </div>
+  </form>
+</section>
+
+
+
+</div>
+</div>
+
+    <div class="collapse navbar-collapse" tabindex="-1" id="navbarSupportedContent" aria-labelledby="navbarSupportedContent">
+      <form class="search-bar my-1" action="/search">
+  <div class="input-group input-group-sm">
+    <span class="btn btn-search disabled position-absolute left-0"><i class="fas fa-fw fa-search"></i></span>
+    <input class="form-control rounded-pill" name="q" type="search" aria-label="Search">
+  </div>
+</form>
+      <ul class="navbar-nav ms-auto"><li class="nav-item">
+          <a class="nav-link" href="/archives/">
+            <i class="fas fa-fw fa-file-archive"></i>归档
+          </a>
+        </li><li class="nav-item">
+          <a class="nav-link" href="/categories/">
+            <i class="fas fa-fw fa-folder"></i>分类
+          </a>
+        </li><li class="nav-item">
+          <a class="nav-link" href="/tags/">
+            <i class="fas fa-fw fa-tags"></i>标签
+          </a>
+        </li><li class="nav-item">
+          <a class="nav-link" href="/series/">
+            <i class="fas fa-fw fa-columns"></i>专栏
+          </a>
+        </li></ul>
+    </div>
+  </div>
+</nav>
+</header>
+language-fallback hljs xml
+<main role="main" class="container">
+      <div class="row content">
+<div class="col-lg-8">
+  <div class="container"><nav class="row card component" aria-label="breadcrumb">
+  <div class="card-body">
+    <ol class="breadcrumb "><li class="breadcrumb-item"><a href="/">主页</a></li><li class="breadcrumb-item"><a href="/posts/">文章</a></li><li class="breadcrumb-item active">云服务器上搭建solo博客</li></ol>
+  </div>
+</nav>    <article class="row card component mb-4 post"><div class="post-panel-wrapper">
+  <div class="d-flex flex-column component rounded post-panel">
+    
+    <a id="sidebarToggler" class="action d-none d-lg-block" role="button">
+  <i class="fas fa-fw fa-expand-alt" data-fa-transform="rotate-45"></i>
+</a>
+  
+    
+
+    <a class="action btn-reward" role="button" data-bs-toggle="modal" data-bs-target="#rewardModal" title="打赏">
+  <i class="fas fa-fw fa-coffee"></i>
+</a>
+    <a class="action" data-bs-container="body" data-bs-toggle="popover" data-bs-html="true" data-bs-placement="bottom"
+  data-bs-trigger="focus" tabindex="0" role="button" aria-label="Copyright" 
+  data-bs-content="&lt;a target=&#34;_blank&#34; rel=&#34;license noopener noreferrer&#34; href=&#34;https://creativecommons.org/licenses/by-nc/4.0/deed.zh&#34;&gt;CC BY-NC 4.0 &lt;i class=&#34;fab fa-fw fa-creative-commons&#34;&gt;&lt;/i&gt;&lt;i class=&#34;fab fa-fw fa-creative-commons-by&#34;&gt;&lt;/i&gt;&lt;i class=&#34;fab fa-fw fa-creative-commons-nc&#34;&gt;&lt;/i&gt;&lt;/a&gt;
+">
+  <i class="fas fa-fw fa-copyright"></i>
+</a>
+    <a class="action" data-bs-toggle="offcanvas" href="#offcanvasTOC" aria-controls="offcanvasTOC" role="button">
+  <i class="fas fa-fw fa-list-alt"></i>
+</a>
+    
+  </div>
+</div>
+<div class="card-body">
+        <h1 class="card-title my-3">云服务器上搭建solo博客
+</h1><div class="post-meta"><span class="post-date" title="created on">
+    <i class="fas fa-fw fa-calendar-alt"></i>2021-10-02
+  </span><span class="post-reading-time" title="reading time">
+    <i class="fas fa-fw fa-coffee"></i>2 分钟阅读
+  </span><a href="/categories/%E7%A7%91%E6%8A%80/" class="badge rounded-pill text-white bg-primary post-taxonomy">科技</a><a href="/categories/%E5%8E%86%E5%8F%B2/" class="badge rounded-pill text-white bg-primary post-taxonomy">历史</a><a href="/series/manual/" class="badge rounded-pill text-white bg-primary post-taxonomy">Manual</a><a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="badge rounded-pill text-white bg-primary post-taxonomy">服务器</a><a href="/tags/solo/" class="badge rounded-pill text-white bg-primary post-taxonomy">solo</a><a href="/tags/%E5%8D%9A%E5%AE%A2/" class="badge rounded-pill text-white bg-primary post-taxonomy">博客</a></div>
+<div class="offcanvas offcanvas-end surface h-100" tabindex="-1" id="offcanvasTOC" aria-labelledby="offcanvasTOCLabel">
+  <div class="offcanvas-header">
+    <h2 class="offcanvas-title" id="offcanvasTOCLabel">目录</h5>
+      <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
+        <i class="fas fa-times"></i>
+      </button>
+  </div>
+  <div class="offcanvas-body">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#1-在安装docker在前先更新yum包">1. 在安装docker在前先更新yum包</a></li>
+        <li><a href="#2-安装需要的软件包-yum-util-提供yum-config-manager功能另外两个是devicemapper驱动依赖的">2. 安装需要的软件包， yum-util 提供yum-config-manager功能，另外两个是devicemapper驱动依赖的</a></li>
+        <li><a href="#3-设置阿里云yum源">3. 设置阿里云yum源</a></li>
+        <li><a href="#4-安装docker">4. 安装docker</a></li>
+        <li><a href="#5-测试docker是否安装成功">5. 测试docker是否安装成功</a></li>
+        <li><a href="#6-安装nginx">6. 安装nginx</a></li>
+        <li><a href="#7-安装-mysql">7. 安装 mysql</a></li>
+        <li><a href="#8-允许外网访问mysql">8. 允许外网访问mysql</a></li>
+        <li><a href="#9-登录-mysql">9. 登录 mysql</a></li>
+        <li><a href="#10-设置-root-可外网访问">10. 设置 root 可外网访问</a></li>
+        <li><a href="#11安装git">11.安装git</a></li>
+        <li><a href="#12-拉取源码">12. 拉取源码</a></li>
+        <li><a href="#13-构建镜像">13. 构建镜像</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div><div class="post-content mb-3"><h3 id="1-在安装docker在前先更新yum包">1. 在安装docker在前先更新yum包</h3>
+<div class="highlight"><pre tabindex="0" style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="1"><a style="outline: none; text-decoration:none; color:inherit" href="#1">1</a></span>yum update
+</code></pre></div><h3 id="2-安装需要的软件包-yum-util-提供yum-config-manager功能另外两个是devicemapper驱动依赖的">2. 安装需要的软件包， yum-util 提供yum-config-manager功能，另外两个是devicemapper驱动依赖的</h3>
+<div class="highlight"><pre tabindex="0" style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="1"><a style="outline: none; text-decoration:none; color:inherit" href="#1">1</a></span>sudo yum install <span style="color:#666">-</span>y yum<span style="color:#666">-</span>utils device<span style="color:#666">-</span>mapper<span style="color:#666">-</span>persistent<span style="color:#666">-</span>data lvm2
+</code></pre></div><h3 id="3-设置阿里云yum源">3. 设置阿里云yum源</h3>
+<div class="highlight"><pre tabindex="0" style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="1"><a style="outline: none; text-decoration:none; color:inherit" href="#1">1</a></span>sudo yum<span style="color:#666">-</span>config<span style="color:#666">-</span>manager <span style="color:#666">--</span>add<span style="color:#666">-</span>repo http<span style="color:#666">:</span><span style="color:#408080;font-style:italic">//mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+</span></code></pre></div><h3 id="4-安装docker">4. 安装docker</h3>
+<div class="highlight"><pre tabindex="0" style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="1"><a style="outline: none; text-decoration:none; color:inherit" href="#1">1</a></span>yum install docker<span style="color:#666">-</span>ce docker<span style="color:#666">-</span>ce<span style="color:#666">-</span>cli containerd<span style="color:#666">.</span><span style="color:#7d9029">io</span>
+</code></pre></div><h3 id="5-测试docker是否安装成功">5. 测试docker是否安装成功</h3>
+<ul>
+<li>启动docker</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="1"><a style="outline: none; text-decoration:none; color:inherit" href="#1">1</a></span>systemctl start docker
+</code></pre></div><ul>
+<li>运行docker hello world</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="1"><a style="outline: none; text-decoration:none; color:inherit" href="#1">1</a></span>docker run hello<span style="color:#666">-</span>world
+</code></pre></div><h4 id="出现hello-from-docker如下图所示则安装成功">出现Hello from Docker！！如下图所示：则安装成功</h4>
+<p><img class="img-fluid" alt="" src="https://yichenblog-picture.oss-cn-hongkong.aliyuncs.com/postsImages/%e4%ba%91%e6%9c%8d%e5%8a%a1%e5%99%a8%e4%b8%8a%e6%90%ad%e5%bb%basolo%e5%8d%9a%e5%ae%a2/image1.png" loading="lazy"
+  
+   />
+
+</p>
+<h3 id="6-安装nginx">6. 安装nginx</h3>
+<p>这里的 nginx 我采用的是 docker 安装，因为需要 nginx 配置域名的 https，因此，我们需要把 nginx 的配置文件挂载在主机目录</p>
+<div class="highlight"><pre tabindex="0" style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="1"><a style="outline: none; text-decoration:none; color:inherit" href="#1">1</a></span>docker run <span style="color:#666">-</span>d <span style="color:#666">--</span>name nginx <span style="color:#666">-</span>p 80<span style="color:#666">:</span>80 <span style="color:#666">-</span>p 443<span style="color:#666">:</span>443 <span style="">\</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="2"><a style="outline: none; text-decoration:none; color:inherit" href="#2">2</a></span><span style="color:#666">-</span>v <span style="color:#666">/</span>opt<span style="color:#666">/</span>nginx<span style="color:#666">/</span>nginx<span style="color:#666">.</span><span style="color:#7d9029">conf</span><span style="color:#666">:/</span>etc<span style="color:#666">/</span>nginx<span style="color:#666">/</span>nginx<span style="color:#666">.</span><span style="color:#7d9029">conf</span> <span style="">\</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="3"><a style="outline: none; text-decoration:none; color:inherit" href="#3">3</a></span><span style="color:#666">-</span>v <span style="color:#666">/</span>opt<span style="color:#666">/</span>nginx<span style="color:#666">/</span>logs<span style="color:#666">:/</span>var<span style="color:#666">/</span>log<span style="color:#666">/</span>nginx <span style="">\</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="4"><a style="outline: none; text-decoration:none; color:inherit" href="#4">4</a></span><span style="color:#666">-</span>v <span style="color:#666">/</span>opt<span style="color:#666">/</span>nginx<span style="color:#666">/</span>html<span style="color:#666">:/</span>usr<span style="color:#666">/</span>share<span style="color:#666">/</span>nginx<span style="color:#666">/</span>html <span style="">\</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="5"><a style="outline: none; text-decoration:none; color:inherit" href="#5">5</a></span><span style="color:#666">-</span>v <span style="color:#666">/</span>opt<span style="color:#666">/</span>nginx<span style="color:#666">/</span>conf<span style="color:#666">:/</span>etc<span style="color:#666">/</span>nginx<span style="color:#666">/</span>conf<span style="color:#666">.</span><span style="color:#7d9029">d</span> <span style="">\</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="6"><a style="outline: none; text-decoration:none; color:inherit" href="#6">6</a></span><span style="color:#666">-</span>v <span style="color:#666">/</span>opt<span style="color:#666">/</span>nginx<span style="color:#666">/</span>ssl<span style="color:#666">:/</span>root<span style="color:#666">/</span>ssl <span style="">\</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="7"><a style="outline: none; text-decoration:none; color:inherit" href="#7">7</a></span><span style="color:#666">--</span>privileged<span style="color:#666">=</span><span style="color:#008000;font-weight:bold">true</span> <span style="">\</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="8"><a style="outline: none; text-decoration:none; color:inherit" href="#8">8</a></span>nginx
+</code></pre></div><p>各个参数的意义：
+-d：后台运行 nginx 容器
+&ndash;name nginx：指定 nginx 的容器名为 nginx
+-p 80:80：将容器的 80 端口映射到主机 80 端口，ps：前面的端口为主机端口
+-p 443:443：将容器的 443 端口映射到主机 443 端口， ps：443端口为 https 端口，后续配置 https 我们将使用到这个端口
+-v /opt/nginx/nginx.conf:/etc/nginx/nginx.conf：将 nginx 的配置文件映射到主机，ps：前面为主机目录，后面为 nginx 的容器目录
+-v /opt/nginx/logs:/var/log/nginx：将 nginx 的日志文件映射到主机
+-v /opt/nginx/html:/usr/share/nginx/html：将 nginx 的 html 静态文件映射到主机
+-v /opt/nginx/conf:/etc/nginx/conf.d：将 nginx 的配置文件夹映射到主机
+-v /opt/nginx/ssl:/root/ssl：将 主机的 ssl https 密匙，映射到 nginx 的 /root/ssl 目录
+&ndash;privileged=true ：容器用户运行 root 权限</p>
+<h3 id="7-安装-mysql">7. 安装 mysql</h3>
+<p>为了简单方便，我这里安装 mysql 的方式是采用 dokcer 安装</p>
+<div class="highlight"><pre tabindex="0" style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="1"><a style="outline: none; text-decoration:none; color:inherit" href="#1">1</a></span>docker run <span style="color:#666">--</span>name mysql <span style="color:#666">-</span>p 3306<span style="color:#666">:</span>3306 <span style="color:#666">-</span>e MYSQL_ROOT_PASSWORD<span style="color:#666">=</span>数据库密码 <span style="color:#666">-</span>d mysql<span style="color:#666">:</span>8<span style="color:#666">.</span><span style="color:#7d9029">0</span>
+</code></pre></div><h3 id="8-允许外网访问mysql">8. 允许外网访问mysql</h3>
+<div class="highlight"><pre tabindex="0" style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="1"><a style="outline: none; text-decoration:none; color:inherit" href="#1">1</a></span>docker exec <span style="color:#666">-</span>it mysql bash
+</code></pre></div><h3 id="9-登录-mysql">9. 登录 mysql</h3>
+<div class="highlight"><pre tabindex="0" style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="1"><a style="outline: none; text-decoration:none; color:inherit" href="#1">1</a></span>mysql <span style="color:#666">-</span>uroot <span style="color:#666">-</span>p数据库密码
+</code></pre></div><h3 id="10-设置-root-可外网访问">10. 设置 root 可外网访问</h3>
+<div class="highlight"><pre tabindex="0" style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="1"><a style="outline: none; text-decoration:none; color:inherit" href="#1">1</a></span>GRANT ALL ON <span style="color:#666">*.*</span> TO <span style="">&#39;</span>root<span style="color:#ba2121">&#39;@&#39;</span><span style="color:#666">%</span><span style="">&#39;</span><span style="color:#666">;</span> 
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="2"><a style="outline: none; text-decoration:none; color:inherit" href="#2">2</a></span>flush privileges<span style="color:#666">;</span>
+</code></pre></div><p>完成之后，输入两次exit退出</p>
+<h3 id="11安装git">11.安装git</h3>
+<div class="highlight"><pre tabindex="0" style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="1"><a style="outline: none; text-decoration:none; color:inherit" href="#1">1</a></span>yum install git
+</code></pre></div><h3 id="12-拉取源码">12. 拉取源码</h3>
+<div class="highlight"><pre tabindex="0" style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="1"><a style="outline: none; text-decoration:none; color:inherit" href="#1">1</a></span>git clone https<span style="color:#666">:</span><span style="color:#408080;font-style:italic">//github.com.cnpmjs.org/adlered/bolo-solo.git
+</span></code></pre></div><h3 id="13-构建镜像">13. 构建镜像</h3>
+<p>我们是需要 https 访问的，所以需要做如下的操作：</p>
+<p>前往项目根目录下src/main/resources目录，编辑latkes.properties文件，将http修改为https，即可使用 https 访问。</p>
+<p>进入项目根目录，执行一下的命令</p>
+<div class="highlight"><pre tabindex="0" style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="1"><a style="outline: none; text-decoration:none; color:inherit" href="#1">1</a></span>docker build <span style="color:#666">-</span>t <span style="color:#ba2121">&#34;bolo&#34;</span> <span style="color:#666">.</span>
+</code></pre></div><p>注意最后面有个点</p>
+</div><div class="modal fade" id="rewardModal" tabindex="-1" aria-labelledby="rewardModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content surface">
+      <div class="modal-header">
+        <h5 class="modal-title" id="rewardModalLabel"><i class="fas fa-fw fa-coffee"></i>打赏</h5>
+        <a href="#" data-bs-dismiss="modal" class="btn btn-sm btn-outline-primary" aria-label="Close"><i class="fas fa-times"></i></a>
+      </div>
+      <div class="modal-body">
+        <ul class="nav nav-tabs mb-3" role="tablist"><li class="nav-item text-nowrap" role="presentation">
+            <a class="nav-link active" id="reward-alipay-tab" data-bs-toggle="tab" href="#reward-alipay" role="tab" aria-controls="reward-alipay" aria-selected="true">
+              <i class="fab fa-fw fa-alipay"></i>支付宝
+            </a>
+          </li><li class="nav-item text-nowrap" role="presentation">
+            <a class="nav-link" id="reward-wechat-tab" data-bs-toggle="tab" href="#reward-wechat" role="tab" aria-controls="reward-wechat" aria-selected="true">
+              <i class="fab fa-fw fa-weixin"></i>微信
+            </a>
+          </li></ul>
+        <div class="tab-content" id="rewardTabContent"><div class="tab-pane fade post-reward-content show active" id="reward-alipay" role="tabpanel" aria-labelledby="reward-alipay-tab">
+            <img class="img-fluid post-reward-img" src="https://yichenblog-picture.oss-cn-hongkong.aliyuncs.com/reward/alipay.jpg" loading="lazy" />
+          </div><div class="tab-pane fade post-reward-content show" id="reward-wechat" role="tabpanel" aria-labelledby="reward-wechat-tab">
+            <img class="img-fluid post-reward-img" src="https://yichenblog-picture.oss-cn-hongkong.aliyuncs.com/reward/wechat.jpg" loading="lazy" />
+          </div></div>
+      </div>
+    </div>
+  </div>
+</div><hr /><div class="post-navs d-flex mb-3 justify-content-evenly">
+  <div class="post-nav post-prev"><i class="fas fa-fw fa-chevron-left"></i>
+    <a href="/contact/">
+</a>
+  </div><div class="post-nav post-next">
+    <a href="/posts/markdown%E4%BD%BF%E7%94%A8%E8%AF%AD%E6%B3%95/">Markdown使用语法
+</a>
+    <i class="fas fa-fw fa-chevron-right"></i>
+  </div></div><section class="related-posts-wrapper">
+    <h3>相关文章</h3>
+    <ul class="related-posts"><li><a href="/posts/markdown%E4%BD%BF%E7%94%A8%E8%AF%AD%E6%B3%95/">Markdown使用语法
+</a></li><li><a href="/contact/">
+</a></li></ul>
+  </section></div>
+    </article><div class="card component row post-comments">
+  <div class="card-body">
+
+
+
+
+<head>
+        <script src="//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.noStyle.js"></script>
+    
+
+    
+
+    
+</head>
+<body>
+
+
+<p>阅读量: <span id="/" class="waline-visitor-count"></span></p>
+<div id="waline"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    var langMode = {
+        "nick": '昵称',
+        "nickError": '昵称不能少于3个字符',
+        "mail": '邮箱',
+        "mailError": '请填写正确的邮件地址',
+        "link": '网址(https://)',
+        "sofa": '来发评论吧~',
+        "submit": '提交',
+        "reply": '回复',
+        "cancelReply": '取消回复',
+        "comment": '评论',
+        "more": '加载更多...',
+        "preview": '预览',
+        "emoji": '表情',
+        "uploadImage": '上传图片',
+        "seconds": '秒前',
+        "minutes": '分钟前',
+        "hours": '小时前',
+        "days": '天前',
+        "now": '刚刚',
+        "uploading": '正在上传',
+        "login": '登录',
+        "logout": '退出',
+        "admin": '博主',
+        "word": '字',
+        "wordHint": '评论字数应在 $0 到 $1 字之间！\n当前字数：$2',
+        "comments": "注释",
+        "cancel": "取消",
+        "confirm": "确认",
+        "continue": "继续",
+        "expand": "查看更多....",
+        "uploadDone": "上传完成！",
+        "busy": "提交繁忙，请过一会再试...",
+        "code-98": "Waline 初始化失败，请检查您的 av-min.js 版本.",
+        "code-99": "Waline初始化失败，请检查init方法中的 'el' 元素.",
+        "code-100": "Waline 初始化失败，请检查您的 appId 和 appKey.",
+        "code-140": "今天的API调用总数已超过开发版本限制.",
+        "code-401": "未经授权的操作，请检查您的appId和appKey.",
+        "code-403": "API域白名单拒绝访问，请检查您的安全域."
+    };
+
+    
+    new Waline({
+        el: '#waline',
+        path: location.pathname,
+        serverURL: 'https://blog-api-chi-sandy.vercel.app/',
+        langMode: langMode,
+        pageSize: 4,
+        avatar: 'wavatar',
+        placeholder: 'ヾﾉ≧∀≦)o快来说点什么吧……',
+        lang: 'zh-CN',
+        
+        dark: 'html[data-mode=dark]',
+        
+        copyright: false,
+        requiredFields: ['nick', 'mail', 'link'],
+        avatarForce: true,
+        visitor: true, 
+        
+        emoji: [
+            'https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/bilibili',
+            'https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/qq',
+            'https://cdn.jsdelivr.net/gh/valinejs/emojis@1.0.0/weibo',
+            'https://cdn.jsdelivr.net/gh/valinejs/emojis@1.0.0/bilibili',
+        ],
+    });
+</script>
+</body>
+</div>
+</div></div>
+</div><aside class="col-lg-4 sidebar d-flex">
+  <div class="container">
+    
+    <section class="card row text-center profile component">
+  <div class="card-body">
+    <div class="col-12 d-flex align-items-center justify-content-center"><img class="profile-avatar rounded-circle" alt="Yi Chen" src="https://yichenblog-picture.oss-cn-hongkong.aliyuncs.com/avatar/profile.jpeg" loading="lazy"
+  
+   />
+</div>
+    <div class="col-12 profile-meta"><div class="profile-name">Yi Chen</div><div class="profile-bio">好记性不如烂笔头.</div><div class="profile-company"><i class="fas fa-fw fa-building"></i>无</div><div class="profile-location"><i class="fas fa-fw fa-map-marker-alt"></i>福州</div>
+
+
+</div>
+  </div>
+</section>
+  <section class="featured-posts row card component">
+    <div class="card-body">
+      <h2 class="card-title">精选文章</h2>
+      <ul><li><a href="/posts/markdown%E4%BD%BF%E7%94%A8%E8%AF%AD%E6%B3%95/">Markdown使用语法
+</a></li><li><a href="/posts/%E9%98%BF%E9%87%8C%E4%BA%91ecs%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BAsolo%E5%8D%9A%E5%AE%A2%E7%B3%BB%E7%BB%9F/">云服务器上搭建solo博客
+</a></li></ul>
+    </div>
+  </section><section class="recent-posts row card component">
+  <div class="card-body">
+    <h2 class="card-title">最近文章</h2>
+    <ul><li><a href="/posts/markdown%E4%BD%BF%E7%94%A8%E8%AF%AD%E6%B3%95/">Markdown使用语法
+</a></li><li><a href="/posts/%E9%98%BF%E9%87%8C%E4%BA%91ecs%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BAsolo%E5%8D%9A%E5%AE%A2%E7%B3%BB%E7%BB%9F/">云服务器上搭建solo博客
+</a></li></ul>
+  </div>
+</section><section class="taxonomies row card component">
+      <div class="card-body">
+        <h2 class="card-title">
+          <a href="/categories">分类</a>
+        </h2>
+        <div><a href="/categories/%E5%8E%86%E5%8F%B2/" class="badge bg-primary text-white rounded post-taxonomy" title="历史">
+            历史
+          </a><a href="/categories/%E6%95%99%E7%A8%8B/" class="badge bg-primary text-white rounded post-taxonomy" title="教程">
+            教程
+          </a><a href="/categories/%E7%A7%91%E6%8A%80/" class="badge bg-primary text-white rounded post-taxonomy" title="科技">
+            科技
+          </a></div>
+      </div>
+    </section><section class="taxonomies row card component">
+      <div class="card-body">
+        <h2 class="card-title">
+          <a href="/series">专栏</a>
+        </h2>
+        <div><a href="/series/manual/" class="badge bg-primary text-white rounded post-taxonomy" title="Manual">
+            Manual
+          </a></div>
+      </div>
+    </section><section class="taxonomies row card component">
+      <div class="card-body">
+        <h2 class="card-title">
+          <a href="/tags">标签</a>
+        </h2>
+        <div><a href="/tags/css/" class="badge bg-primary text-white rounded post-taxonomy" title="CSS">
+            CSS
+          </a><a href="/tags/html/" class="badge bg-primary text-white rounded post-taxonomy" title="HTML">
+            HTML
+          </a><a href="/tags/markdown/" class="badge bg-primary text-white rounded post-taxonomy" title="Markdown">
+            Markdown
+          </a><a href="/tags/solo/" class="badge bg-primary text-white rounded post-taxonomy" title="solo">
+            solo
+          </a><a href="/tags/%E5%8D%9A%E5%AE%A2/" class="badge bg-primary text-white rounded post-taxonomy" title="博客">
+            博客
+          </a><a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="badge bg-primary text-white rounded post-taxonomy" title="服务器">
+            服务器
+          </a></div>
+      </div>
+    </section>
+    
+  </div>
+</aside>
+</div>
+    </main><footer class="footer mt-auto py-3 text-center container"><nav class="social-links nav my-2 justify-content-center"><a class="nav-link social-link" href="mailto:user@domain.tld" title="Email">
+      <i class="fas fa-fw fa-2x fa-envelope"></i>
+    </a><a class="nav-link social-link" target="_blank" href="https://github.com/yourgithubusername" title="GitHub" rel="noopener noreferrer">
+        <i class="fa-fw fa-2x fab fa-github"></i>
+      </a><a class="nav-link social-link" target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=yourqqnumber&amp;site=qq&amp;menu=yes" title="QQ" rel="noopener noreferrer">
+        <i class="fa-fw fa-2x fab fa-qq"></i>
+      </a><a class="nav-link social-link" target="_blank" href="https://weibo.com/yourweibousername" title="Weibo" rel="noopener noreferrer">
+        <i class="fa-fw fa-2x fab fa-weibo"></i>
+      </a><a class="nav-link social-link" target="_blank" href="https://www.zhihu.com/people/yourzhihuusername" title="Zhihu" rel="noopener noreferrer">
+        <i class="fa-fw fa-2x fab fa-zhihu"></i>
+      </a>
+</nav>
+<div class="copyright mb-2">
+  忆尘博客 © 2021-2021 Yi Chen. 版权所有.
+</div>
+</footer>
+<script src="/js/bundle.min.aaf9de812178b4f40dc4286cb6fb98836c4179db053447486c7118ca8030fc67.js" integrity="sha256-qvnegSF4tPQNxChstvuYg2xBedsFNEdIbHEYyoAw/Gc=" crossorigin="anonymous" defer></script><script defer src="/js/viewer.min.9f39f897757e616b3f6faf1d7955ea42a180a4e71d898e80f1c13d45e59b9abb.js" integrity="sha256-nzn4l3V&#43;YWs/b68deVXqQqGApOcdiY6A8cE9ReWbmrs=" crossorigin="anonymous"></script><script defer src="/js/katex.min.9ff0aa3994263922ea3921ebb0b7f1d78f598fcfd5e18cf24209b21f92866bf6.js" integrity="sha256-n/CqOZQmOSLqOSHrsLfx149Zj8/V4YzyQgmyH5KGa/Y=" crossorigin="anonymous"></script><script defer src="/js/mermaid.min.c088c5b7c67c68fcb93f6c09f3a20e733e0ec93efd47cd58530f5d912af24afc.js" integrity="sha256-wIjFt8Z8aPy5P2wJ86IOcz4OyT79R81YUw9dkSrySvw=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
